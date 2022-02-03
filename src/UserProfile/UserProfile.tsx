@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import "./UserProfile.css";
@@ -11,40 +11,103 @@ export default function UserProfile(props: UserProfileProps) {
   const { data } = props;
   const { id } = useParams();
   const user = data[id];
-
   const [edit, setEdit] = useState(false);
-  const [name, setName] = useState(user.name);
-  const [userName, setUserName] = useState(user.username);
-  const [email, setEmail] = useState(user.email);
-  const [emailDirty, setEmailDirty] = useState(false);
-  const [emailError, setEmailError] = useState("Error");
-  const [street, setStreet] = useState(user.address.street);
-  const [city, setCity] = useState(user.address.city);
-  const [zipCode, setZipCode] = useState(user.address.zipcode);
-  const [phone, setPhone] = useState(user.phone);
-  const [website, setWebsite] = useState(user.website);
-  const [comment, setComment] = useState("");
-  const [formValid, setFormValid] = useState(true);
 
-  const emailHandler = (e) => {
-    setEmail(e.target.value);
-    const re = /.+@.+\..+/i;
-    if (!re.test(e.target.value)) {
-      setEmailError("Invalid Email");
-      setFormValid(false);
-    } else {
-      setEmailError("");
-      setFormValid(true);
-    }
+  const useInput = (initialValue: string) => {
+    const [value, setValue] = useState(initialValue);
+    const [isDirty, setIsDirty] = useState(false);
+    const [isEmpty, setIsEmpty] = useState(false);
+    const [minLengthError, setMinLengthError] = useState(false);
+    const [inputValid, setInputValid] = useState(false);
+
+    const onInputChange = (e: {
+      target: { value: React.SetStateAction<string> };
+    }) => {
+      setValue(e.target.value);
+    };
+
+    const onInputBlur = () => {
+      setIsDirty(true);
+      if (value) {
+        setIsEmpty(false);
+      } else {
+        setIsEmpty(true);
+      }
+
+      if (value.length < 3) {
+        setMinLengthError(true);
+      } else {
+        setMinLengthError(false);
+      }
+    };
+
+    useEffect(() => {
+      if (isEmpty || minLengthError) {
+        setInputValid(false);
+      } else {
+        setInputValid(true);
+      }
+    });
+
+    return {
+      value,
+      isDirty,
+      onInputChange,
+      onInputBlur,
+      isEmpty,
+      minLengthError,
+      inputValid,
+    };
   };
+
+  const name = useInput(`${user.name}`);
+  const userName = useInput(`${user.username}`);
+  const email = useInput(`${user.email}`);
+  const street = useInput(`${user.address.street}`);
+  const city = useInput(`${user.address.city}`);
+  const zipCode = useInput(`${user.address.zipcode}`);
+  const phone = useInput(`${user.phone}`);
+  const website = useInput(`${user.website}`);
+  const comment = useInput("");
+
+  const formFields = [
+    name,
+    userName,
+    email,
+    street,
+    city,
+    zipCode,
+    phone,
+    website,
+    comment,
+  ];
+  const formValid =
+    name.inputValid &&
+    userName.inputValid &&
+    email.inputValid &&
+    street.inputValid &&
+    city.inputValid &&
+    zipCode.inputValid &&
+    phone.inputValid &&
+    website.inputValid;
 
   const editButtonHandler = () => {
     setEdit(true);
   };
-
+  const names = [
+    "name",
+    "userName",
+    "email",
+    "street",
+    "city",
+    "zipCode",
+    "phone",
+    "website",
+    "comment",
+  ];
   const handleSubmit = (e: React.FormEvent) => {
     if (formValid && edit) {
-      console.log(
+      const answer = [
         name,
         userName,
         email,
@@ -53,17 +116,73 @@ export default function UserProfile(props: UserProfileProps) {
         zipCode,
         phone,
         website,
-        comment
-      );
+        comment,
+      ];
+
+      const result = [];
+      for (let i = 0; i < names.length; i += 1) {
+        const key = names[i];
+        const obj: { [index: string]: string } = {};
+        obj[key] = answer[i].value;
+        result.push(obj);
+      }
+
+      console.log(JSON.stringify(result));
     }
     e.preventDefault();
   };
+
+  const inputs = formFields.map((field, index) => (
+    <div className="input">
+      <label className="input__label" htmlFor={names[index]}>
+        {names[index]}{" "}
+        {field.isDirty && field.isEmpty && (
+          <p className="input__label--error">Поле не может быть пустым</p>
+        )}{" "}
+        {field.isDirty && field.minLengthError && (
+          <p className="input__label--error">
+            Поле должно быть более 3-х символов
+          </p>
+        )}
+      </label>
+
+      {field === comment && (
+        <textarea
+          className={`input__field input__field--${
+            edit ? "active" : "inactive"
+          } input__field--textarea`}
+          onChange={(e) => field.onInputChange(e)}
+          id={names[index]}
+          readOnly={!edit}
+          value={field.value}
+        >
+          {field.value}
+        </textarea>
+      )}
+
+      {field !== comment && (
+        <input
+          className={`input__field input__field--${
+            edit ? "active" : "inactive"
+          } input__field--${field.inputValid ? "valid" : "invalid"}`}
+          id={names[index]}
+          onChange={(e) => field.onInputChange(e)}
+          onBlur={(e) => field.onInputBlur(e)}
+          type={names[index]}
+          required
+          readOnly={!edit}
+          value={field.value}
+        />
+      )}
+    </div>
+  ));
 
   return (
     <div className="user__profile">
       <button
         className="profile__button profile__button--edit"
         onClick={editButtonHandler}
+        type="submit"
       >
         Редактировать
       </button>
@@ -72,80 +191,12 @@ export default function UserProfile(props: UserProfileProps) {
           edit && formValid ? "active" : "inactive"
         }`}
         onClick={handleSubmit}
+        type="submit"
       >
         Отправить
       </button>
       <form className="form" onSubmit={handleSubmit}>
-        <p className="form__text">Имя</p>
-        <input
-          readOnly={!edit}
-          name="name"
-          className={`form__input form__input--${edit ? "active" : "inactive"}`}
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <p className="form__text">User name</p>
-        <input
-          readOnly={!edit}
-          name="userName"
-          className={`form__input form__input--${edit ? "active" : "inactive"}`}
-          value={userName}
-          onChange={(e) => setUserName(e.target.value)}
-        />
-        <p className="form__text">E-mail</p>
-        {emailDirty && emailError && <div>{emailError}</div>}
-        <input
-          onBlur={() => setEmailDirty(true)}
-          onChange={(e) => emailHandler(e)}
-          readOnly={!edit}
-          className={`form__input form__input--${edit ? "active" : "inactive"}`}
-          type="email"
-          value={email}
-        />
-        <p className="form__text">Street</p>
-        <input
-          readOnly={!edit}
-          className={`form__input form__input--${edit ? "active" : "inactive"}`}
-          value={street}
-          onChange={(e) => setStreet(e.target.value)}
-        />
-        <p className="form__text">City</p>
-        <input
-          readOnly={!edit}
-          className={`form__input form__input--${edit ? "active" : "inactive"}`}
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-        />
-        <p className="form__text">Zip code</p>
-        <input
-          readOnly={!edit}
-          className={`form__input form__input--${edit ? "active" : "inactive"}`}
-          value={zipCode}
-          onChange={(e) => setZipCode(e.target.value)}
-        />
-        <p className="form__text">Phone</p>
-        <input
-          readOnly={!edit}
-          className={`form__input form__input--${edit ? "active" : "inactive"}`}
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-        />
-        <p className="form__text">Website</p>
-        <input
-          readOnly={!edit}
-          className={`form__input form__input--${edit ? "active" : "inactive"}`}
-          value={website}
-          onChange={(e) => setWebsite(e.target.value)}
-        />
-        <p className="form__text">Comment</p>
-        <textarea
-          readOnly={!edit}
-          className={`form__input form__input--${
-            edit ? "active" : "inactive"
-          } form__input--textarea`}
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-        />
+        {inputs}
       </form>
     </div>
   );
