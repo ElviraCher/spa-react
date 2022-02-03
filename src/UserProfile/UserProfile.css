@@ -1,0 +1,76 @@
+.user__profile {
+  grid-area: m;
+  display: grid;
+  grid-template-areas:
+    "button-e"
+    "main"
+    "button-s";
+  width: 100%;
+}
+.form {
+  border: 1px solid #f3f3f3;
+  box-sizing: border-box;
+  border-radius: 8px;
+  grid-area: main;
+  margin: 0.5rem 3rem;
+  padding: 1.5rem 1rem;
+}
+
+.form__text {
+  font-size: 8px;
+}
+
+.form__input {
+  width: 50%;
+  padding: 0.7rem 1rem;
+  margin: 0.4rem 0 1rem;
+  box-sizing: border-box;
+  border: 2px solid #d8d8d8;
+  border-radius: 5px;
+  font-size: 10px;
+}
+
+.form__input--active {
+    color: rgba(0, 0, 0, 1);
+}
+
+.form__input--inactive {
+    color: rgba(0, 0, 0, 0.3);
+}
+
+.form__input--textarea {
+  width: 100%;
+  min-height: 5rem;
+}
+
+.profile__button {
+  background-color: #4b51ef;
+  padding: 0.3141rem 0.95rem;
+
+  border-radius: 5px;
+  color: #ffffff;
+
+  align-self: center;
+  justify-self: end;
+  margin-right: 3rem;
+}
+.profile__button--edit {
+  margin-bottom: 3.8rem;
+  grid-area: button-e;
+  position: absolute;
+}
+
+.profile__button--submit {
+  background-color: rgba(82, 207, 79, 1);
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
+  grid-area: button-s;
+}
+
+.profile__button--submit--active {
+    background-color: rgba(82, 207, 79, 1);
+}
+
+.profile__button--submit--inactive {
+    background-color: rgba(175, 175, 175, 1);
+}

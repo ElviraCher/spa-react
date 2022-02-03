@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 
+import "./UserProfile.css";
+
 interface UserProfileProps {
   data: [{}];
 }
