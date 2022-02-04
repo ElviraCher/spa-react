@@ -10,12 +10,10 @@ interface ButtonProps {
 export default function Button(props: ButtonProps) {
   const { text, handler } = props;
   return (
-    <div className="button__container">
-      <button className="button" onClick={handler}>
+    <div>
+      <button className="button" onClick={handler} type="submit">
         {text}
       </button>
     </div>
   );
 }
-
-
