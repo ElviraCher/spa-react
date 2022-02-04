@@ -35,7 +35,6 @@ export default function App() {
           <Button handler={sortByCityHandler} text="по городу" />
           <Button handler={sortByNameHandler} text="по имени" />
         </div>
-
       </div>
 
       <Routes>

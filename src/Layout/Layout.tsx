@@ -1,6 +1,6 @@
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import React from "react";
-
+import CreatePage from "../CreatePage/CreatePage.tsx";
 import "./Layout.css";
 
 interface LayoutProps {
