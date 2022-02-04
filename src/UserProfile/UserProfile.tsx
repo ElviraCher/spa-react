@@ -133,7 +133,7 @@ export default function UserProfile(props: UserProfileProps) {
   };
 
   const inputs = formFields.map((field, index) => (
-    <div className="input">
+    <div key={Math.random()} className="input">
       <label className="input__label" htmlFor={names[index]}>
         {names[index]}{" "}
         {field.isDirty && field.isEmpty && (
