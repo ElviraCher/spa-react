@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 
 import "./UserProfile.css";
+import useInput from "../helpers/useInput.tsx";
 
 interface UserProfileProps {
   data: [{}];
@@ -13,61 +14,35 @@ export default function UserProfile(props: UserProfileProps) {
   const user = data[id];
   const [edit, setEdit] = useState(false);
 
-  const useInput = (initialValue: string) => {
-    const [value, setValue] = useState(initialValue);
-    const [isDirty, setIsDirty] = useState(false);
-    const [isEmpty, setIsEmpty] = useState(false);
-    const [minLengthError, setMinLengthError] = useState(false);
-    const [inputValid, setInputValid] = useState(false);
-
-    const onInputChange = (e: {
-      target: { value: React.SetStateAction<string> };
-    }) => {
-      setValue(e.target.value);
-    };
-
-    const onInputBlur = () => {
-      setIsDirty(true);
-      if (value) {
-        setIsEmpty(false);
-      } else {
-        setIsEmpty(true);
-      }
-
-      if (value.length < 3) {
-        setMinLengthError(true);
-      } else {
-        setMinLengthError(false);
-      }
-    };
-
-    useEffect(() => {
-      if (isEmpty || minLengthError) {
-        setInputValid(false);
-      } else {
-        setInputValid(true);
-      }
-    });
-
-    return {
-      value,
-      isDirty,
-      onInputChange,
-      onInputBlur,
-      isEmpty,
-      minLengthError,
-      inputValid,
-    };
-  };
-
-  const name = useInput(`${user.name}`);
-  const userName = useInput(`${user.username}`);
-  const email = useInput(`${user.email}`);
-  const street = useInput(`${user.address.street}`);
-  const city = useInput(`${user.address.city}`);
-  const zipCode = useInput(`${user.address.zipcode}`);
-  const phone = useInput(`${user.phone}`);
-  const website = useInput(`${user.website}`);
+  const name = useInput(`${user.name}`, { isEmpty: false, minLengthError: 3 });
+  const userName = useInput(`${user.username}`, {
+    isEmpty: false,
+    minLengthError: 3,
+  });
+  const email = useInput(`${user.email}`, {
+    isEmpty: false,
+    minLengthError: 3,
+  });
+  const street = useInput(`${user.address.street}`, {
+    isEmpty: false,
+    minLengthError: 3,
+  });
+  const city = useInput(`${user.address.city}`, {
+    isEmpty: false,
+    minLengthError: 3,
+  });
+  const zipCode = useInput(`${user.address.zipcode}`, {
+    isEmpty: false,
+    minLengthError: 3,
+  });
+  const phone = useInput(`${user.phone}`, {
+    isEmpty: false,
+    minLengthError: 3,
+  });
+  const website = useInput(`${user.website}`, {
+    isEmpty: false,
+    minLengthError: 3,
+  });
   const comment = useInput("");
 
   const formFields = [
