@@ -16,48 +16,6 @@
   padding: 1.5rem 1rem;
 }
 
-.input {
-  display: grid;
-}
-.input__label {
-  font-size: 8px;
-}
-
-.input__label--error {
-  color: rgba(217, 19, 19, 1);
-}
-
-.input__field {
-  width: 50%;
-  padding: 0.7rem 1rem;
-  margin: 0.4rem 0 1rem;
-  box-sizing: border-box;
-  border: 1px solid #d8d8d8;
-  border-radius: 5px;
-  font-size: 10px;
-}
-
-.input__field--active {
-  color: rgba(0, 0, 0, 1);
-}
-
-.input__field--inactive {
-  color: rgba(0, 0, 0, 0.3);
-}
-
-.input__field--valid {
-  border-color: #d8d8d8;
-}
-
-.input__field--invalid {
-  border-color: rgba(217, 19, 19, 1);
-}
-
-.input__field--textarea {
-  width: 100%;
-  min-height: 5rem;
-}
-
 .profile__button {
   background-color: #4b51ef;
   padding: 0.3141rem 0.95rem;
