@@ -2,16 +2,16 @@ import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import UsersList from "../UsersList/UsersList.tsx";
 import UserProfile from "../UserProfile/UserProfile.tsx";
-import Button from "../Button/Button.tsx";
 import Layout from "../Layout/Layout.tsx";
 import Loading from "../Loading/Loading.tsx";
+import Sidebar from "../Sidebar/Sidebar.tsx";
 import URL from "../URL/URL.tsx";
 
 import "./App.css";
 
 export default function App() {
   const [usersInfo, setUsersInfo] = useState([]);
-  const [loading, setloading] = useState(undefined);
+  const [loading, setLoading] = useState(undefined);
 
   const [headerText, setHeaderText] = useState("Список пользователей");
   const [sortWay, setSortWay] = useState("none");
@@ -22,9 +22,9 @@ export default function App() {
         .then((res) => res.json())
         .then((users) => {
           setUsersInfo(users);
-          setloading(true);
+          setLoading(true);
         });
-    }, 2000);
+    }, 500);
   }, []);
 
   const sortByNameHandler = () => {
@@ -38,17 +38,13 @@ export default function App() {
   return (
     <div className="container">
       {!loading ? (
-        <Loading/>
+        <Loading />
       ) : (
         <>
-          <div className="sidebar">
-            <div className="sidebar__nav">
-              <p className="sidebar__header">Сортировка</p>
-              <Button handler={sortByCityHandler} text="по городу" />
-              <Button handler={sortByNameHandler} text="по имени" />
-            </div>
-          </div>
-
+          <Sidebar
+            sortByNameHandler={sortByNameHandler}
+            sortByCityHandler={sortByCityHandler}
+          />
           <Routes>
             <Route path="/*" element={<Layout header={headerText} />}>
               <Route
