@@ -4,6 +4,7 @@ import UsersList from "../UsersList/UsersList.tsx";
 import UserProfile from "../UserProfile/UserProfile.tsx";
 import Button from "../Button/Button.tsx";
 import Layout from "../Layout/Layout.tsx";
+import Loading from "../Loading/Loading.tsx";
 import URL from "../URL/URL.tsx";
 
 import "./App.css";
@@ -37,10 +38,7 @@ export default function App() {
   return (
     <div className="container">
       {!loading ? (
-        <div className="spinner">
-          <span className="spinner__sign">Идёт загрузка...</span>
-          <span className="spinner__img"> </span>
-        </div>
+        <Loading/>
       ) : (
         <>
           <div className="sidebar">
