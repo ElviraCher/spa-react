@@ -1,0 +1,24 @@
+.accept__container {
+  grid-area: m;
+  height: auto;
+  align-self: flex-start;
+  justify-self: center;
+  background-color: #bdbdbd;
+  border: 1px solid #f3f3f3;
+  box-sizing: border-box;
+  border-radius: 8px;
+  margin: 0.5rem 3rem;
+  padding: 1.5rem 1rem;
+}
+
+.accept__text {
+  padding: 0.5rem 0;
+  font-size: 1.5rem;
+  text-align: center;
+  color: #4b51ef;
+}
+
+.accept__text--extra {
+  font-size: 0.9rem;
+  color: black;
+}

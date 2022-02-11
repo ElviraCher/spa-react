@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 
 import "./UserProfile.css";
 import FormInput from "../FormInput/FormInput.tsx";
+import SubmitForm from "../SubmitForm/SubmitForm.tsx";
 
 interface UserProfileProps {
   data: [{}];
@@ -26,6 +27,7 @@ export default function UserProfile(props: UserProfileProps) {
 
   const [edit, setEdit] = useState(false);
   const [valid, setValid] = useState(true);
+  const [submit, setSubmit] = useState(false);
   const [values, setValues] = useState({
     name: formFields[0],
     username: formFields[1],
@@ -142,39 +144,46 @@ export default function UserProfile(props: UserProfileProps) {
     e.preventDefault();
     if (valid) {
       console.log(JSON.stringify(values));
+      setSubmit(true);
     }
   };
   return (
-    <div className="user__profile">
-      <button
-        className="profile__button profile__button--edit"
-        type="submit"
-        onClick={handleEditButton}
-      >
-        Редактировать
-      </button>
-      <button
-        className={`profile__button profile__button--submit profile__button--submit--${
-          edit && valid ? "active" : "inactive"
-        }`}
-        type="submit"
-        disabled={!edit}
-        onClick={(e) => handleSubmitButton(e)}
-      >
-        Отправить
-      </button>
-      <form onSubmit={handleSubmit} className="form">
-        {inputs.map((input) => (
-          <FormInput
-            readOnly={!edit}
-            key={input.id}
-            value={values[input.name]}
-            onChange={onChange}
-            edit={edit}
-            {...input}
-          />
-        ))}
-      </form>
-    </div>
+    <>
+      {submit ? (
+        <SubmitForm />
+      ) : (
+        <div className="user__profile">
+          <button
+            className="profile__button profile__button--edit"
+            type="submit"
+            onClick={handleEditButton}
+          >
+            Редактировать
+          </button>
+          <button
+            className={`profile__button profile__button--submit profile__button--submit--${
+              edit && valid ? "active" : "inactive"
+            }`}
+            type="submit"
+            disabled={!edit}
+            onClick={(e) => handleSubmitButton(e)}
+          >
+            Отправить
+          </button>
+          <form onSubmit={handleSubmit} className="form">
+            {inputs.map((input) => (
+              <FormInput
+                readOnly={!edit}
+                key={input.id}
+                value={values[input.name]}
+                onChange={onChange}
+                edit={edit}
+                {...input}
+              />
+            ))}
+          </form>
+        </div>
+      )}
+    </>
   );
 }
