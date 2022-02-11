@@ -10,13 +10,20 @@ import "./App.css";
 
 export default function App() {
   const [usersInfo, setUsersInfo] = useState([]);
+  const [loading, setloading] = useState(undefined);
+
   const [headerText, setHeaderText] = useState("Список пользователей");
   const [sortWay, setSortWay] = useState("none");
 
   useEffect(() => {
-    fetch(URL)
-      .then((res) => res.json())
-      .then((users) => setUsersInfo(users));
+    setTimeout(() => {
+      fetch(URL)
+        .then((res) => res.json())
+        .then((users) => {
+          setUsersInfo(users);
+          setloading(true);
+        });
+    }, 2000);
   }, []);
 
   const sortByNameHandler = () => {
@@ -29,23 +36,32 @@ export default function App() {
 
   return (
     <div className="container">
-      <div className="sidebar">
-        <div className="sidebar__nav">
-          <p className="sidebar__header">Сортировка</p>
-          <Button handler={sortByCityHandler} text="по городу" />
-          <Button handler={sortByNameHandler} text="по имени" />
+      {!loading ? (
+        <div className="spinner">
+          <span className="spinner__sign">Идёт загрузка...</span>
+          <span className="spinner__img"> </span>
         </div>
-      </div>
+      ) : (
+        <>
+          <div className="sidebar">
+            <div className="sidebar__nav">
+              <p className="sidebar__header">Сортировка</p>
+              <Button handler={sortByCityHandler} text="по городу" />
+              <Button handler={sortByNameHandler} text="по имени" />
+            </div>
+          </div>
 
-      <Routes>
-        <Route path="/*" element={<Layout header={headerText} />}>
-          <Route
-            index
-            element={<UsersList data={usersInfo} sortWay={sortWay} />}
-          />
-          <Route path=":id" element={<UserProfile data={usersInfo} />} />
-        </Route>
-      </Routes>
+          <Routes>
+            <Route path="/*" element={<Layout header={headerText} />}>
+              <Route
+                index
+                element={<UsersList data={usersInfo} sortWay={sortWay} />}
+              />
+              <Route path=":id" element={<UserProfile data={usersInfo} />} />
+            </Route>
+          </Routes>
+        </>
+      )}
     </div>
   );
 }
