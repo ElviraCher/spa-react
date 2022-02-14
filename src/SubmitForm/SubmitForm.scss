@@ -16,9 +16,9 @@
   font-size: 1.5rem;
   text-align: center;
   color: #4b51ef;
-}
 
-.accept__text--extra {
-  font-size: 0.9rem;
-  color: black;
+  &--extra {
+    font-size: 0.9rem;
+    color: black;
+  }
 }

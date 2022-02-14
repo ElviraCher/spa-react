@@ -1,0 +1,23 @@
+body {
+  outline: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  font-family: Roboto, sans-serif;
+
+  .container {
+    width: 100%;
+    display: grid;
+    grid-template-areas:
+      "s  h h h"
+      "s  m m m"
+      "s  m m m";
+    background-color: #ffffff;
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    min-height: 100%;
+  }
+}

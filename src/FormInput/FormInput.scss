@@ -1,0 +1,45 @@
+.input {
+  display: grid;
+
+  &__label {
+    font-size: 8px;
+
+    &--error {
+      color: rgba(217, 19, 19, 1);
+    }
+  }
+
+  &__field {
+    padding: 0.7rem 1rem;
+    margin: 0.4rem 0 1rem;
+    box-sizing: border-box;
+    border: 1px solid #d8d8d8;
+    border-radius: 5px;
+    font-size: 10px;
+
+    &--active {
+      color: rgba(0, 0, 0, 1);
+    }
+
+    &--inactive {
+      color: rgba(0, 0, 0, 0.3);
+    }
+
+    &--valid {
+      border-color: #d8d8d8;
+    }
+
+    &--invalid {
+      border-color: rgba(217, 19, 19, 1);
+    }
+
+    &--textarea {
+      width: 100%;
+      min-height: 5rem;
+    }
+
+    &--input {
+      width: 50%;
+    }
+  }
+}
