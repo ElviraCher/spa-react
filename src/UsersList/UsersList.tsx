@@ -5,7 +5,6 @@ import UserCard from "../UserCard/UserCard.tsx";
 import sortBy from "../helpers/SortBy.tsx";
 
 import { UserCardProps } from "../UserProfile/UserProfile.tsx";
-import "./UserList.css";
 
 export default function UsersList(props: UserCardProps) {
   const { data } = props;

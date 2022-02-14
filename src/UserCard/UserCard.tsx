@@ -1,7 +1,5 @@
 import React from "react";
 
-import "./UserCard.css";
-
 export interface UserCardProps {
   userName: string;
   city: string;

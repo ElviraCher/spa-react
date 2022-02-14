@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 
-import "./UserProfile.css";
 import FormInput from "../FormInput/FormInput.tsx";
 import SubmitForm from "../SubmitForm/SubmitForm.tsx";
 

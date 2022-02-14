@@ -1,5 +1,4 @@
 import React from "react";
-import "./Sidebar.css";
 import Button from "../Button/Button.tsx";
 
 interface SidebarProps {

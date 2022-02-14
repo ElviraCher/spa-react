@@ -7,8 +7,6 @@ import Loading from "../Loading/Loading.tsx";
 import Sidebar from "../Sidebar/Sidebar.tsx";
 import URL from "../URL/URL.tsx";
 
-import "./App.css";
-
 export default function App() {
   const [usersInfo, setUsersInfo] = useState([]);
   const [loading, setLoading] = useState(undefined);

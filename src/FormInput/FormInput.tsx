@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./FormInput.css";
 
 interface formInputProps {
   onChange: () => {};
