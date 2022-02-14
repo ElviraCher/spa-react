@@ -1,0 +1,17 @@
+.user__card {
+  font-size: 0.8125rem;
+}
+
+.user__item {
+  box-sizing: border-box;
+  padding: 0.8rem 0 0;
+
+  &--value {
+    display: inline;
+  }
+
+  &--name {
+    display: inline;
+    color: rgba(163, 163, 163, 1);
+  }
+}
